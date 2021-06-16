@@ -7,11 +7,11 @@ from enum import Enum
 import random
 
 class Constructs(Enum):
-    morning = 1,2
-    valsz = 2,2
-    recognition = 3,8
-    ascendant = 4,0
-    wreck = 5,3
+    #morning = 1, 2
+    #valsz = 2, 2
+    #recognition = 3, 8
+    #ascendant = 4, 0
+    wreck = 5, 3
 
 
 def uploadFiles(tr):
@@ -23,12 +23,12 @@ def uploadFiles(tr):
 
 def fileSearching(index,s):
     try:
-        file = open(f"..\GeneratedMusic{index}.midi",'r')
+        file = open(f"..\GeneratedMusic{index}.midi", 'r')
     except FileNotFoundError:
-        s.write('midi',fp=f"..\GeneratedMusic{index}.midi")
+        s.write('midi', fp=f"..\GeneratedMusic{index}.midi")
         print(f"file GeneratedMusic{index}.midi has been created")
     else:
-        fileSearching(index+1,s)
+        fileSearching(index+1, s)
         
 
 tr = Tr()
@@ -41,9 +41,12 @@ gen.generate(p0)
 mlt = Mlt()
 chosenConstruct = random.choice([construct.name for construct in Constructs])
 print(chosenConstruct)
-beat = random.randint(Constructs[chosenConstruct].value[1],Constructs[chosenConstruct].value[1]+2)*10+100
+beat = random.randint(
+    Constructs[chosenConstruct].value[1],
+    Constructs[chosenConstruct].value[1] + 2
+    )*10 + 100
 print(beat)
-eval("mlt."+chosenConstruct)(s,p0,beat)
+eval("mlt."+chosenConstruct)(s, p0, beat)
 mlt.streamCompleting(s)
-#s.write('midi',fp='..\M.midi')
-fileSearching(1,s)
+#s.write('midi', fp='..\M.midi')
+fileSearching(1, s)
