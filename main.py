@@ -7,10 +7,10 @@ from enum import Enum
 import random
 
 class Constructs(Enum):
-    #morning = 1, 2
-    #valsz = 2, 2
-    #recognition = 3, 8
-    #ascendant = 4, 0
+    morning = 1, 2
+    valsz = 2, 2
+    recognition = 3, 8
+    ascendant = 4, 0
     wreck = 5, 3
 
 
