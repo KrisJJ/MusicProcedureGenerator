@@ -7,18 +7,35 @@ from enum import Enum
 import random
 
 class Constructs(Enum):
-    #morning = 1, 2
-    #valsz = 2, 2
-    #recognition = 3, 8
-    #ascendant = 4, 0
+    ascendant = 4, 0
+    morning = 1, 2
+    recognition = 3, 8
+    valsz = 2, 2
     wreck = 5, 3
+        
 
+def main():
+    tr = Tr()
+    #uploadFiles(tr)            # Use this for processing external music files
+    s = stream.Stream()
+    p0 = stream.Part()
+    gen = Gen(tr)
+    gen.generate(p0)
 
-def uploadFiles(tr):
-    dat_dir = '..\\ForLearn'
-    files = [os.path.join(dat_dir,x) for x in os.listdir(dat_dir)]
-    for f in files:
-        tr.update_table(f)
+    mlt = Mlt()
+    chosenConstruct = random.choice(
+        [construct.name for construct in Constructs]
+        )
+    print(chosenConstruct)
+    beat = random.randint(
+        Constructs[chosenConstruct].value[1],
+        Constructs[chosenConstruct].value[1] + 2
+        )*10 + 100
+    print(beat)
+    eval("mlt."+chosenConstruct)(s, p0, beat)
+    mlt.streamCompleting(s)
+    #s.write('midi', fp='..\M.midi')      #Use this for resaving generated music
+    fileSearching(1, s)
 
 
 def fileSearching(index,s):
@@ -29,24 +46,14 @@ def fileSearching(index,s):
         print(f"file GeneratedMusic{index}.midi has been created")
     else:
         fileSearching(index+1, s)
-        
 
-tr = Tr()
-#uploadFiles(tr)
-s = stream.Stream()
-p0 = stream.Part()
-gen = Gen(tr)
-gen.generate(p0)
 
-mlt = Mlt()
-chosenConstruct = random.choice([construct.name for construct in Constructs])
-print(chosenConstruct)
-beat = random.randint(
-    Constructs[chosenConstruct].value[1],
-    Constructs[chosenConstruct].value[1] + 2
-    )*10 + 100
-print(beat)
-eval("mlt."+chosenConstruct)(s, p0, beat)
-mlt.streamCompleting(s)
-#s.write('midi', fp='..\M.midi')
-fileSearching(1, s)
+def uploadFiles(tr):
+    dat_dir = '..\\ForLearn'
+    files = [os.path.join(dat_dir,x) for x in os.listdir(dat_dir)]
+    for f in files:
+        tr.updateTable(f)
+
+
+if __name__ == '__main__':
+    main()

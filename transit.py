@@ -5,21 +5,44 @@ import os
 class Transit:
     
     def __init__(self):
-        self.table_name = 'stt.txt'
+        self.tableName = 'stt.txt'
 
 
-    def load_table(self):
-        if os.stat(self.table_name).st_size < 40:
+    def calcPosib(self):
+        posibTab = {}
+        tab = self.loadTable()
+        for i in tab.keys():
+            jTab = {}
+            for j in tab[i].keys():
+                note = []
+                freq = []
+                sumF = 0
+                kTab = {}
+                for k in tab[i][j].keys():
+                    note.append(k)
+                    freq.append(tab[i][j][k])
+                    sumF += tab[i][j][k]
+                freqRel = [fr/sumF * 100 for fr in freq]
+                for m in range(len(note)):
+                    kTab.update({note[m]: freqRel[m]})
+                jTab.update({j: kTab})
+            posibTab.update({i: jTab})
+
+        return posibTab
+
+
+    def loadTable(self):
+        if os.stat(self.tableName).st_size < 40:
             tab = {}
         else:
-            with open(self.table_name, 'r') as f:
+            with open(self.tableName, 'r') as f:
                 tab = json.load(f)  
         return tab
 
 
-    def update_table(self, track):
+    def updateTable(self, track):
         c = converter.parse(track)
-        tab = self.load_table()
+        tab = self.loadTable()
         fst = ''
         scd = ''
         for el in c.recurse():
@@ -57,28 +80,6 @@ class Transit:
                         tab[fst] = {scd: {str(rom): 1}}
                     fst, scd = scd, str(rom)
 
-        with open(self.table_name, 'w') as f:
+        with open(self.tableName, 'w') as f:
             json.dump(tab, f)
 
-
-    def calc_posib(self):
-        posib_tab = {}
-        tab = self.load_table()
-        for i in tab.keys():
-            j_tab = {}
-            for j in tab[i].keys():
-                note = []
-                freq = []
-                sum_f = 0
-                k_tab = {}
-                for k in tab[i][j].keys():
-                    note.append(k)
-                    freq.append(tab[i][j][k])
-                    sum_f += tab[i][j][k]
-                freq_rel = [fr/sum_f * 100 for fr in freq]
-                for m in range(len(note)):
-                    k_tab.update({note[m]: freq_rel[m]})
-                j_tab.update({j: k_tab})
-            posib_tab.update({i: j_tab})
-
-        return posib_tab

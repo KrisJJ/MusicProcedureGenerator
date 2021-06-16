@@ -4,13 +4,13 @@ import random
 class Generator:
     
     def __init__(self, tr):
-        self.tab = tr.calc_posib()
+        self.tab = tr.calcPosib()
         self.fst = ''
         self.scd = ''
         self.k = ''
 
 
-    def generate(self,part):
+    def generate(self, part):
         for i in range(8):
             if self.fst == '':
                 self.fst = random.choice(list(self.tab.keys()))

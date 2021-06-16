@@ -40,391 +40,7 @@ class Multiplier:
         stream0.insert(0, self.part6)
 
 
-    def morning(self, stream0, part0, temp):
-        
-        stream0.insert(
-            self.position,
-            tempo.MetronomeMark(number=temp)
-            )
-        
-        for el in part0.getElementsByClass('RomanNumeral'):
-            self.buf.append(el.pitches[0])
-            
-        for i in range(8):
-            if i < 6:
-                for el in self.buf:
-                    self.part1.append(note.Note(el))
-                    self.part3.append(note.Rest())
-            else:
-                tup = duration.Tuplet(2, 4)
-                tup.setDurationType('quarter')
-                dur = duration.Duration('quarter')
-                dur.appendTuplet(tup)
-                for el in self.buf:
-                    rom = roman.RomanNumeral('I', el.name)
-                    rom.duration = dur
-                    self.part1.append(rom)
-                    nott = note.Note(el.name)
-                    nott.octave = el.octave - 2
-                    nott.duration = dur
-                    self.part3.append(nott)
-                
-
-            if i < 8:
-                if i >= 4:
-                    tup = duration.Tuplet(2, 3)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    step = 1
-                elif i >= 2:
-                    tup = duration.Tuplet(1, 4)
-                    tup.setDurationType('eighth')
-                    dur = duration.Duration('eighth')
-                    dur.appendTuplet(tup)
-                    step = 2
-                    
-                if i < 2:
-                    for j in range(len(self.buf)):
-                        self.part6.append(note.Rest())
-                else:
-                    for j in range(len(self.buf)):
-                        if j % step == 0:
-                            nott = note.Note(self.buf[j])
-                            nott.duration = dur
-                            self.part6.append(nott)
-
-            self.position += 9
-            
-        self.part1.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part2.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part3.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part4.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part5.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part6.insert(
-            self.position,
-            note.Rest()
-            )
-
-
-    def valsz(self, stream0, part0, temp):
-        stream0.insert(
-            self.position,
-            tempo.MetronomeMark(number=temp)
-            )
-
-        for el in part0.getElementsByClass('RomanNumeral'):
-            self.buf.append(el.pitches[0])
-
-        for i in range(11):
-            for el in self.buf[:4]:
-                tup = duration.Tuplet(3, 3)
-                tup.setDurationType('quarter')
-                dur = duration.Duration('quarter')
-                dur.appendTuplet(tup)
-                    
-                nott = note.Note(el.ps)
-                nott.duration = dur
-                nott.octave -= 2
-                self.part3.append(nott)
-
-                nott = note.Note(el.ps + 16)
-                nott.duration = dur
-                nott.octave -= 2
-                nott1 = note.Note(el.ps + 12)
-                nott1.duration = dur
-                nott1.octave -= 2
-                self.part3.append(
-                    chord.Chord([nott, nott1])
-                    )
-                
-                nott = note.Note(el.ps + 16)
-                nott.duration = dur
-                nott.octave -= 2
-                nott1 = note.Note(el.ps + 12)
-                nott1.duration = dur
-                nott1.octave -= 2
-                self.part3.append(
-                    chord.Chord([nott, nott1])
-                    )
-
-                tup = duration.Tuplet(1, 3)
-                tup.setDurationType('quarter')
-                dur = duration.Duration('quarter')
-                dur.appendTuplet(tup)
-                nott = note.Note(el.ps)
-                nott.duration = dur
-                self.part1.append(nott)
-
-            
-            if i == 0:
-                for el in self.buf:
-                    tup = duration.Tuplet(2, 3)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    rest = note.Rest()
-                    rest.duration = dur
-                    self.part6.append(rest)
-                
-            elif i >= 1 and i < 6:
-                for el in self.buf:
-                    tup = duration.Tuplet(2, 3)
-                    tup.setDurationType('half')
-                    dur = duration.Duration('half')
-                    dur.appendTuplet(tup)
-                    nott = note.Note(el.name)
-                    nott.octave = el.octave
-                    nott.duration = dur
-                    self.part6.append(nott)
-
-            else:
-                for el in self.buf:
-                    tup = duration.Tuplet(2, 3)
-                    tup.setDurationType('half')
-                    dur = duration.Duration('half')
-                    dur.appendTuplet(tup)
-                    rest = note.Rest()
-                    rest.duration = dur
-                    self.part6.append(rest)
-
-
-            if i == 0:
-                for el in self.buf:
-                    tup = duration.Tuplet(2, 3)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    rest = note.Rest()
-                    rest.duration = dur
-                    self.part4.append(rest)
-
-            elif i >= 3 and i < 6:
-                for el in self.buf:
-                    tup = duration.Tuplet(2, 3)
-                    tup.setDurationType('half')
-                    dur = duration.Duration('half')
-                    dur.appendTuplet(tup)
-                    rom = roman.RomanNumeral('I', el.name)
-                    rom.duration = dur
-                    self.part4.append(rom)
-            else:
-                for el in self.buf:
-                    tup = duration.Tuplet(2, 3)
-                    tup.setDurationType('half')
-                    dur = duration.Duration('half')
-                    dur.appendTuplet(tup)
-                    rest = note.Rest()
-                    rest.duration = dur
-                    self.part4.append(rest)
-
-
-            self.position += 12
-            stream0.insert(
-                self.position,
-                tempo.MetronomeMark(number = temp + i*4)
-                )
-
-        tup = duration.Tuplet(1, 3)
-        tup.setDurationType('quarter')
-        dur = duration.Duration('quarter')
-        dur.appendTuplet(tup)
-        nott = note.Note(el.ps)
-        nott.duration = dur
-        nott.octave -= 2
-        self.part3.append(nott)
-        self.position += 3
-
-        self.part1.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part2.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part3.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part4.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part5.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part6.insert(
-            self.position,
-            note.Rest()
-            )
-
-
-    def recognition(self, stream0, part0, temp):
-        stream0.insert(
-            self.position,
-            tempo.MetronomeMark(number=temp)
-            )
-
-        for el in part0.getElementsByClass('RomanNumeral'):
-            self.buf.append(el.pitches[0])
-
-        for i in range(6):
-            if i >= 3:
-                for el in self.buf:
-                    tup = duration.Tuplet(2, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    nott = note.Note(el)
-                    nott.duration = dur
-                    self.part2.append(nott)
-
-                    tup = duration.Tuplet(4, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    nott = note.Note(el)
-                    nott.duration = dur
-                    self.part2.append(nott)
-                    nott = note.Note(el)
-                    nott.duration = dur
-                    self.part2.append(nott)
-                    
-            elif i >= 2:
-                for el in self.buf:
-                    tup = duration.Tuplet(2, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    nott = note.Note(el)
-                    nott.duration = dur
-                    self.part2.append(nott)
-                    nott = note.Note(el)
-                    nott.duration = dur
-                    self.part2.append(nott)
-                    
-            elif i >= 1:
-                for el in self.buf:
-                    tup = duration.Tuplet(1, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    nott = note.Note(el)
-                    nott.duration = dur
-                    self.part2.append(nott)
-                    
-            else:
-                for el in self.buf:
-                    tup = duration.Tuplet(1, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    rest = note.Rest()
-                    rest.duration = dur
-                    self.part2.append(rest)
-
-            if i >= 4:
-                for el in self.buf:
-                    tup = duration.Tuplet(1, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    nott = note.Note(el.ps)
-                    nott.duration = dur
-                    nott.octave -= 2
-                    self.part5.append(nott)
-                    
-            else:
-                for el in self.buf:
-                    tup = duration.Tuplet(1, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    rest = note.Rest()
-                    rest.duration = dur
-                    self.part5.append(rest)
-
-            if i >= 5:
-                for el in self.buf:
-                    tup = duration.Tuplet(1, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    rom = roman.RomanNumeral('I', el.name)
-                    rom.duration = dur
-                    self.part4.append(rom)
-                    
-            else:
-                for el in self.buf:
-                    tup = duration.Tuplet(1, 4)
-                    tup.setDurationType('quarter')
-                    dur = duration.Duration('quarter')
-                    dur.appendTuplet(tup)
-                    rest = note.Rest()
-                    rest.duration = dur
-                    self.part4.append(rest)
-
-            for el in self.buf:
-                tup = duration.Tuplet(1, 4)
-                tup.setDurationType('quarter')
-                dur = duration.Duration('quarter')
-                dur.appendTuplet(tup)
-                    
-                nott = note.Note(el)
-                nott.duration = dur
-                self.part6.append(nott)
-
-            self.position += 32
-
-        tup = duration.Tuplet(4, 4)
-        tup.setDurationType('quarter')
-        dur = duration.Duration('quarter')
-        nott = note.Note(el)
-        nott.duration = dur
-        self.part2.append(nott)
-        self.position += 1
-
-        self.part1.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part2.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part3.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part4.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part5.insert(
-            self.position,
-            note.Rest()
-            )
-        self.part6.insert(
-            self.position,
-            note.Rest()
-            )
-
+# Each function below is used for generate music patterns
 
     def ascendant(self, stream0, part0, temp):
         stream0.insert(
@@ -703,6 +319,392 @@ class Multiplier:
             self.position - 1,
             tempo.MetronomeMark(number=temp)
             )        
+
+        self.part1.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part2.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part3.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part4.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part5.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part6.insert(
+            self.position,
+            note.Rest()
+            )
+        
+
+    def morning(self, stream0, part0, temp):
+        
+        stream0.insert(
+            self.position,
+            tempo.MetronomeMark(number=temp)
+            )
+        
+        for el in part0.getElementsByClass('RomanNumeral'):
+            self.buf.append(el.pitches[0])
+            
+        for i in range(8):
+            if i < 6:
+                for el in self.buf:
+                    self.part1.append(note.Note(el))
+                    self.part3.append(note.Rest())
+            else:
+                tup = duration.Tuplet(2, 4)
+                tup.setDurationType('quarter')
+                dur = duration.Duration('quarter')
+                dur.appendTuplet(tup)
+                for el in self.buf:
+                    rom = roman.RomanNumeral('I', el.name)
+                    rom.duration = dur
+                    self.part1.append(rom)
+                    nott = note.Note(el.name)
+                    nott.octave = el.octave - 2
+                    nott.duration = dur
+                    self.part3.append(nott)
+                
+
+            if i < 8:
+                if i >= 4:
+                    tup = duration.Tuplet(2, 3)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    step = 1
+                elif i >= 2:
+                    tup = duration.Tuplet(1, 4)
+                    tup.setDurationType('eighth')
+                    dur = duration.Duration('eighth')
+                    dur.appendTuplet(tup)
+                    step = 2
+                    
+                if i < 2:
+                    for j in range(len(self.buf)):
+                        self.part6.append(note.Rest())
+                else:
+                    for j in range(len(self.buf)):
+                        if j % step == 0:
+                            nott = note.Note(self.buf[j])
+                            nott.duration = dur
+                            self.part6.append(nott)
+
+            self.position += 9
+            
+        self.part1.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part2.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part3.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part4.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part5.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part6.insert(
+            self.position,
+            note.Rest()
+            )
+
+
+    def recognition(self, stream0, part0, temp):
+        stream0.insert(
+            self.position,
+            tempo.MetronomeMark(number=temp)
+            )
+
+        for el in part0.getElementsByClass('RomanNumeral'):
+            self.buf.append(el.pitches[0])
+
+        for i in range(6):
+            if i >= 3:
+                for el in self.buf:
+                    tup = duration.Tuplet(2, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    nott = note.Note(el)
+                    nott.duration = dur
+                    self.part2.append(nott)
+
+                    tup = duration.Tuplet(4, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    nott = note.Note(el)
+                    nott.duration = dur
+                    self.part2.append(nott)
+                    nott = note.Note(el)
+                    nott.duration = dur
+                    self.part2.append(nott)
+                    
+            elif i >= 2:
+                for el in self.buf:
+                    tup = duration.Tuplet(2, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    nott = note.Note(el)
+                    nott.duration = dur
+                    self.part2.append(nott)
+                    nott = note.Note(el)
+                    nott.duration = dur
+                    self.part2.append(nott)
+                    
+            elif i >= 1:
+                for el in self.buf:
+                    tup = duration.Tuplet(1, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    nott = note.Note(el)
+                    nott.duration = dur
+                    self.part2.append(nott)
+                    
+            else:
+                for el in self.buf:
+                    tup = duration.Tuplet(1, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    rest = note.Rest()
+                    rest.duration = dur
+                    self.part2.append(rest)
+
+            if i >= 4:
+                for el in self.buf:
+                    tup = duration.Tuplet(1, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    nott = note.Note(el.ps)
+                    nott.duration = dur
+                    nott.octave -= 2
+                    self.part5.append(nott)
+                    
+            else:
+                for el in self.buf:
+                    tup = duration.Tuplet(1, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    rest = note.Rest()
+                    rest.duration = dur
+                    self.part5.append(rest)
+
+            if i >= 5:
+                for el in self.buf:
+                    tup = duration.Tuplet(1, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    rom = roman.RomanNumeral('I', el.name)
+                    rom.duration = dur
+                    self.part4.append(rom)
+                    
+            else:
+                for el in self.buf:
+                    tup = duration.Tuplet(1, 4)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    rest = note.Rest()
+                    rest.duration = dur
+                    self.part4.append(rest)
+
+            for el in self.buf:
+                tup = duration.Tuplet(1, 4)
+                tup.setDurationType('quarter')
+                dur = duration.Duration('quarter')
+                dur.appendTuplet(tup)
+                    
+                nott = note.Note(el)
+                nott.duration = dur
+                self.part6.append(nott)
+
+            self.position += 32
+
+        tup = duration.Tuplet(4, 4)
+        tup.setDurationType('quarter')
+        dur = duration.Duration('quarter')
+        nott = note.Note(el)
+        nott.duration = dur
+        self.part2.append(nott)
+        self.position += 1
+
+        self.part1.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part2.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part3.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part4.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part5.insert(
+            self.position,
+            note.Rest()
+            )
+        self.part6.insert(
+            self.position,
+            note.Rest()
+            )
+
+
+    def valsz(self, stream0, part0, temp):
+        stream0.insert(
+            self.position,
+            tempo.MetronomeMark(number=temp)
+            )
+
+        for el in part0.getElementsByClass('RomanNumeral'):
+            self.buf.append(el.pitches[0])
+
+        for i in range(11):
+            for el in self.buf[:4]:
+                tup = duration.Tuplet(3, 3)
+                tup.setDurationType('quarter')
+                dur = duration.Duration('quarter')
+                dur.appendTuplet(tup)
+                    
+                nott = note.Note(el.ps)
+                nott.duration = dur
+                nott.octave -= 2
+                self.part3.append(nott)
+
+                nott = note.Note(el.ps + 16)
+                nott.duration = dur
+                nott.octave -= 2
+                nott1 = note.Note(el.ps + 12)
+                nott1.duration = dur
+                nott1.octave -= 2
+                self.part3.append(
+                    chord.Chord([nott, nott1])
+                    )
+                
+                nott = note.Note(el.ps + 16)
+                nott.duration = dur
+                nott.octave -= 2
+                nott1 = note.Note(el.ps + 12)
+                nott1.duration = dur
+                nott1.octave -= 2
+                self.part3.append(
+                    chord.Chord([nott, nott1])
+                    )
+
+                tup = duration.Tuplet(1, 3)
+                tup.setDurationType('quarter')
+                dur = duration.Duration('quarter')
+                dur.appendTuplet(tup)
+                nott = note.Note(el.ps)
+                nott.duration = dur
+                self.part1.append(nott)
+
+            
+            if i == 0:
+                for el in self.buf:
+                    tup = duration.Tuplet(2, 3)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    rest = note.Rest()
+                    rest.duration = dur
+                    self.part6.append(rest)
+                
+            elif i >= 1 and i < 6:
+                for el in self.buf:
+                    tup = duration.Tuplet(2, 3)
+                    tup.setDurationType('half')
+                    dur = duration.Duration('half')
+                    dur.appendTuplet(tup)
+                    nott = note.Note(el.name)
+                    nott.octave = el.octave
+                    nott.duration = dur
+                    self.part6.append(nott)
+
+            else:
+                for el in self.buf:
+                    tup = duration.Tuplet(2, 3)
+                    tup.setDurationType('half')
+                    dur = duration.Duration('half')
+                    dur.appendTuplet(tup)
+                    rest = note.Rest()
+                    rest.duration = dur
+                    self.part6.append(rest)
+
+
+            if i == 0:
+                for el in self.buf:
+                    tup = duration.Tuplet(2, 3)
+                    tup.setDurationType('quarter')
+                    dur = duration.Duration('quarter')
+                    dur.appendTuplet(tup)
+                    rest = note.Rest()
+                    rest.duration = dur
+                    self.part4.append(rest)
+
+            elif i >= 3 and i < 6:
+                for el in self.buf:
+                    tup = duration.Tuplet(2, 3)
+                    tup.setDurationType('half')
+                    dur = duration.Duration('half')
+                    dur.appendTuplet(tup)
+                    rom = roman.RomanNumeral('I', el.name)
+                    rom.duration = dur
+                    self.part4.append(rom)
+            else:
+                for el in self.buf:
+                    tup = duration.Tuplet(2, 3)
+                    tup.setDurationType('half')
+                    dur = duration.Duration('half')
+                    dur.appendTuplet(tup)
+                    rest = note.Rest()
+                    rest.duration = dur
+                    self.part4.append(rest)
+
+
+            self.position += 12
+            stream0.insert(
+                self.position,
+                tempo.MetronomeMark(number = temp + i*4)
+                )
+
+        tup = duration.Tuplet(1, 3)
+        tup.setDurationType('quarter')
+        dur = duration.Duration('quarter')
+        dur.appendTuplet(tup)
+        nott = note.Note(el.ps)
+        nott.duration = dur
+        nott.octave -= 2
+        self.part3.append(nott)
+        self.position += 3
 
         self.part1.insert(
             self.position,
